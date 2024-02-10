@@ -1,7 +1,8 @@
 
 
+import 'package:BUBBLE_TROUBLE/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:juse/home_page.dart';
+
 
 void main() => runApp(const MyApp());
 
