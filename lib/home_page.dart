@@ -1,13 +1,11 @@
 import 'dart:async';
 
-
 import 'package:BUBBLE_TROUBLE/boll.dart';
 import 'package:BUBBLE_TROUBLE/button.dart';
 import 'package:BUBBLE_TROUBLE/missle.dart';
 import 'package:BUBBLE_TROUBLE/palyer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         bollY = heightToPosition(height);
       });
-      time += 0.1;
+
       if (bollX - 0.005 < -1) {
         bollDirection = Direction.RIGHT;
       } else if (bollX + 0.005 > 1) {
@@ -55,13 +53,32 @@ class _HomePageState extends State<HomePage> {
           bollX -= 0.03;
         });
       }
+if(isPlayerDies()){
+  timer.cancel();
+ _showDialog();
+}
+      time += 0.1;
     });
   }
-
+void _showDialog(){
+  showDialog(context: context, builder: (context){
+return const AlertDialog(
+  backgroundColor: Colors.grey,
+  title: Center(child: Text("You dead",style: TextStyle(color: Colors.white),)),
+);
+  });
+}
   double heightToPosition(double height) {
     double totalHeight = MediaQuery.of(context).size.height * 3 / 4;
     double missileY = 1 - 2 * height / totalHeight;
     return missileY;
+  }
+
+  bool isPlayerDies() {
+    if ((bollX - missleX).abs() < 0.05 && bollY > 0.90) {
+      return true;
+    }
+    return false;
   }
 
   void resetMissle() {
